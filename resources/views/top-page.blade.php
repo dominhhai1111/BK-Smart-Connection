@@ -1,0 +1,1 @@
+<p>BK SMART CONNECTION</p>
