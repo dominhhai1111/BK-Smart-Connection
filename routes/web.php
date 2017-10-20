@@ -12,3 +12,5 @@
 */
 
 Route::get('/', "BKSmartConnection@index")->name("top-page");
+
+Route::get('/user_id={user_id}', "BKSmartConnection@show")->name("getUser");
