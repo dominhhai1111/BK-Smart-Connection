@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use DB;
 
 class BKSmartConnection extends Controller
 {
@@ -14,6 +15,7 @@ class BKSmartConnection extends Controller
      */
     public function index()
     {
+/*        DB::table("user")->insert(["name"=>"BlackFriday13"]);*/
         return view('top-page');
     }
 
@@ -46,7 +48,8 @@ class BKSmartConnection extends Controller
      */
     public function show($id)
     {
-        //
+        $user = DB::table("user")->select("id", "name")->where("id", $id)->first();
+        return json_encode($user);
     }
 
     /**
