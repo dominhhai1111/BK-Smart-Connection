@@ -13,4 +13,8 @@
 
 Route::get('/', "BKSmartConnection@index")->name("top-page");
 
+Route::get('/admin', "AdminController@index")->name("admin-page");
+
+Route::get('/admin/showCustomers', "AdminController@showCustomers")->name("show-customers");
+
 Route::get('/user_id={user_id}', "BKSmartConnection@show")->name("getUser");
