@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -16,9 +17,22 @@ class AdminController extends Controller
         return view('/admin/index');
     }
 
-    public function showCustomers()
+    public function showAllUsers()
     {
-        return view('/admin/showCustomers');
+        $users = DB::table("user")->select()->get();
+        return view('/admin/showUsers', ['users' => $users]);
+    }
+
+    public function showAllCircumstances()
+    {
+        $circumstances = DB::table("circumstance")->select()->get();
+        return view('/admin/showCircumstances', ['circumstances' => $circumstances]);
+    }
+
+    public function showAllSolutions()
+    {
+        $solutions = DB::table("solution")->select()->get();
+        return view('/admin/showSolutions', ['solutions' => $solutions]);
     }
 
     /**
