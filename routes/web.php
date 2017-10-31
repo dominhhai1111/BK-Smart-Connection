@@ -24,3 +24,5 @@ Route::get('/admin/showAllCircumstances', "AdminController@showAllCircumstances"
 Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name("showAllSolutions");
 
 Route::get('/getSolution/topic={topic}&feeling={feeling}', "SolutionController@getSolution")->name("getSolution");
+
+Route::get('/getResponse/request={request}', "ChatBotController@getResponse")->name("getResponse");
