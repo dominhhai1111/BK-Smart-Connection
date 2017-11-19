@@ -23,4 +23,10 @@ Route::get('/admin/showAllCircumstances', "AdminController@showAllCircumstances"
 
 Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name("showAllSolutions");
 
+Route::get('/getSolutionForUser/{score}/{objects}', "BKSmartConnection@getSolutionForUser")->name("getSolutionForUser");
+
+Route::get('/getMusic/{music}', "BKSmartConnection@getMusic")->name("getMusic");
+
+
+
 
