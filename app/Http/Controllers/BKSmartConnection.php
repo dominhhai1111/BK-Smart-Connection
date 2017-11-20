@@ -56,7 +56,7 @@ class BKSmartConnection extends Controller
     public function getSolutionForUser($score, $objects)
     {
         $music = DB::table("music")->where("id", 1)->first();
-        return var_dump($music);
+        return $music->url;
     }
 
     public function getMusic($music){
