@@ -53,13 +53,13 @@ class BKSmartConnection extends Controller
         return json_encode($user);
     }
 
-    public function getSolutionForUser($score, $objects)
+    public function getMusicUrlForUser($score, $objects)
     {
         $music = DB::table("music")->where("id", 1)->first();
         return $music->url;
     }
 
-    public function getMusic($music){
+    public function playMusic($music){
         return redirect("/public/uploads/music/".$music);
     }
 }
