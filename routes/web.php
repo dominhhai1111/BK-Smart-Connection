@@ -23,8 +23,8 @@ Route::get('/admin/showAllCircumstances', "AdminController@showAllCircumstances"
 
 Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name("showAllSolutions");
 
-Route::get('/getSolutionForUser/{score}/{objects}', "BKSmartConnection@getSolutionForUser")->name("getSolutionForUser");
+Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicUrlForUser")->name("getMusicUrlForUser");
 
-Route::get('/getMusic/{music}', "BKSmartConnection@getMusic")->name("getMusic");
+Route::get('/playMusic/{music}', "BKSmartConnection@playMusic")->name("playMusic");
 
 Route::get('/getResponse/request={request}', "ChatBotController@getResponse")->name("getResponse");
