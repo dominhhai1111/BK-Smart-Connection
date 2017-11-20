@@ -27,7 +27,4 @@ Route::get('/getSolutionForUser/{score}/{objects}', "BKSmartConnection@getSoluti
 
 Route::get('/getMusic/{music}', "BKSmartConnection@getMusic")->name("getMusic");
 
-
-
-
 Route::get('/getResponse/request={request}', "ChatBotController@getResponse")->name("getResponse");
