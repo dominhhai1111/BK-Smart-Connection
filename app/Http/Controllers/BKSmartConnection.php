@@ -49,13 +49,13 @@ class BKSmartConnection extends Controller
      */
     public function show($id)
     {
-        $user = DB::table("user")->select("id", "name")->where("id", $id)->first();
+        $user = DB::table("USER")->select("id", "name")->where("id", $id)->first();
         return json_encode($user);
     }
 
     public function getMusicUrlForUser($score, $objects)
     {
-        $music = DB::table("music")->where("id", 1)->first();
+        $music = DB::table("MUSIC")->where("id", 1)->first();
         return $music->url;
     }
 
