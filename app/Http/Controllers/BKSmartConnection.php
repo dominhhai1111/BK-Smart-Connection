@@ -55,8 +55,29 @@ class BKSmartConnection extends Controller
 
     public function getMusicUrlForUser($score, $objects)
     {
+        $objects = json_decode($objects);
+        $list_person = [];
+        $list_existence = [];
+        foreach ($objects as $object){
+            switch ($objects->type){
+                case "PERSON": $list_peron[] = $object->name;
+                case "LOCATION": $list_existence[] = $object->topic;
+                case "OTHER": $list_existence[] = $object->topic;
+            }
+        }
         $music = DB::table("MUSIC")->where("id", 1)->first();
         return $music->url;
+    }
+
+    public function findTopicMusic($list_existence){
+        $topics = DB::table("TOPIC")->get();
+        foreach ($topics as $topic){
+            $topic_noun = DN::table("");
+            foreach ($list_existence as $existenc){
+
+            }
+        }
+
     }
 
     public function playMusic($music){
