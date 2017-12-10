@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use DB;
+use TijsVerkoyen\CssToInlineStyles\Css\Rule\Rule;
 
 class BKSmartConnection extends Controller
 {
@@ -87,13 +88,15 @@ class BKSmartConnection extends Controller
                 }
             }
         }
-        $topics_have_max_weight = array_keys($topics_weight);
+        $id_topic_have_max_weight = array_search(max($topics_weight),$topics_weight);
         // Choose topic have max weight is the first in array $topics_have_max_wright
-        $topic_have_max_weight = DB::table("topic")->where("id", $topics_have_max_weight[0])->first();
+        $topic_have_max_weight = DB::table("topic")->where("id", $id_topic_have_max_weight)->first();
         return $topic_have_max_weight;
     }
 
     public function findSingerMusic($objects){
+        $data = [];
+
         foreach ($objects as $object){
             if($object->type == "PERSON"){
                 $existence_in_data = DB::table("singer")->where("name", $object->name)->first();
@@ -106,8 +109,61 @@ class BKSmartConnection extends Controller
         }
     }
 
-
     public function playMusic($music){
         return redirect("/public/uploads/music/".$music);
+    }
+
+    public function getResult($message, $score, $objects){
+        //TODO
+        $data = [];
+        if ($this->rule1($data)){
+            return $this->rule1($data);
+        }elseif ($this->rule2($data)){
+            return $this->rule2($data);
+        }elseif ($this->rule3($data)){
+            return $this->rule3($data);
+        }elseif ($this->rule4($data)){
+            return $this->rule4($data);
+        }
+        return null;
+    }
+
+    public function rule1($singer){
+        $list_of_song = [];
+        return $list_of_song;
+    }
+
+    public function rule2($genre){
+        $list_of_song = [];
+        return $list_of_song;
+    }
+
+    public function rule3($activity){
+        $list_of_song = [];
+        return $list_of_song;
+    }
+
+    // Feeling
+    public function rule4($message){
+        $list_of_song = [];
+        $arrMessage = $this->explodeMessage($message);
+        foreach ($arrMessage as $word){
+            $feelingWords = DB::table("feeling_word")->get();
+            foreach ($feelingWords as $feelingWord){
+                if (strtolower($word) == $feelingWord->name){
+                    $list_of_song = DB::table("album")->get();
+                }
+            }
+        }
+        return $list_of_song;
+    }
+
+    public function rule5(){
+
+    }
+
+    public function explodeMessage($message){
+        $arrMessage = explode(" ", $message);
+        return $arrMessage;
     }
 }
