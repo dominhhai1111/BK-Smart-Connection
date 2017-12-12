@@ -1,0 +1,11 @@
+.showActivityWords table{
+    width: 200px;
+}
+
+.showActivityWords table tr{
+    background-color: white;
+}
+
+.showActivityWords table td, th{
+    text-align: center;
+}
