@@ -25,6 +25,26 @@ Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name(
 
 Route::get('/admin/showActivityWords', "AdminController@showActivityWords")->name("showActivityWords");
 
+Route::get('/admin/deleteActivityWord/{id}', "AdminController@deleteActivityWord")->name("deleteActivityWord");
+
+Route::post('/admin/addActivityWord', "AdminController@addActivityWord")->name("addActivityWord");
+
+Route::get('/admin/showActivity', "AdminController@showActivity")->name("showActivity");
+
+Route::get('/admin/deleteActivity/{id}', "AdminController@deleteActivity")->name("deleteActivity");
+
+Route::post('/admin/addActivity', "AdminController@addActivity")->name("addActivity");
+
+Route::get('/admin/showGenre', "AdminController@showGenre")->name("showGenre");
+
+Route::get('/admin/deleteGenre/{id}', "AdminController@deleteGenre")->name("deleteGenre");
+
+Route::post('/admin/addGenre', "AdminController@addGenre")->name("addGenre");
+
+Route::get('/admin/showGenreWords', "AdminController@showGenreWords")->name("showGenreWords");
+
+Route::get('/admin/deleteGenreWord/{id}', "AdminController@deleteGenreWord")->name("deleteGenreWord");
+
 Route::post('/admin/addActivityWord', "AdminController@addActivityWord")->name("addActivityWord");
 
 Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicUrlForUser")->name("getMusicUrlForUser");

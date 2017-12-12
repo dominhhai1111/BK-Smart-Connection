@@ -269,19 +269,11 @@
         <div id="page-inner">
             <div class="showActivityWords">
                 <div class="add-word">
-                    <form action="{{route('addActivityWord')}}" method="post">
+                    <form action="{{route('addActivity')}}" method="post">
                         <div class="row" style="width: 1200px">
                             <p class="col-xs-3" style="padding-right: 0; width: 270px">
-                                <label for="activityWord">Word: </label>
-                                <input type="text" name="activityWord" id="activityWord">
-                            </p>
-                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
-                                <label for="activity"></label>
-                                <select name="activity" id="activity" style="height: 31px; width: 120px">
-                                    @foreach($activityDB as $activity)
-                                        <option value="{{$activity->id}}">{{$activity->name}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="activity">Activity: </label>
+                                <input type="text" name="activity" id="activity">
                             </p>
                             <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
                                 <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
@@ -293,19 +285,14 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
-                        <th>Word</th>
                         <th>Activity</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($activityWords as $activityWord)
-                        <?php
-                            $activity = DB::table("activity")->where("id", $activityWord->id_activity)->first();
-                        ?>
+                    @foreach($activityDB as $activity)
                         <tr>
-                            <th>{{$activityWord->id}}</th>
-                            <th>{{$activityWord->name}}</th>
+                            <th>{{$activity->id}}</th>
                             <th>{{$activity->name}}</th>
-                            <th><a href="{{ URL::route("deleteActivityWord", ["id" => $activityWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th><a href="{{ URL::route("deleteActivity", ["id" => $activity->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
                         </tr>
                     @endforeach
                 </table>
