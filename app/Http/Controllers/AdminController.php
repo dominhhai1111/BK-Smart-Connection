@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -35,6 +36,17 @@ class AdminController extends Controller
         return view('/admin/showSolutions', ['solutions' => $solutions]);
     }
 
+    public function showActivityWords(){
+        $activityDB = DB::table("activity")->get();
+        $activityWords = DB::table("activity_words")->get();
+        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
+    }
+
+    public function addActivityWord(Request $request){
+        $activityWord_name = $request->input("activityWord");
+        $activity_id = $request->input("activity");
+        return \redirect('/admin/showActivityWords');
+    }
     /**
      * Show the form for creating a new resource.
      *

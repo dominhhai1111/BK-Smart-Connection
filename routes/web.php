@@ -23,6 +23,10 @@ Route::get('/admin/showAllCircumstances', "AdminController@showAllCircumstances"
 
 Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name("showAllSolutions");
 
+Route::get('/admin/showActivityWords', "AdminController@showActivityWords")->name("showActivityWords");
+
+Route::post('/admin/addActivityWord', "AdminController@addActivityWord")->name("addActivityWord");
+
 Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicUrlForUser")->name("getMusicUrlForUser");
 
 Route::get('/playMusic/{music}', "BKSmartConnection@playMusic")->name("playMusic");
