@@ -44,8 +44,57 @@ class AdminController extends Controller
 
     public function addActivityWord(Request $request){
         $activityWord_name = $request->input("activityWord");
-        $activity_id = $request->input("activity");
+        $id_activity = $request->input("activity");
+        DB::table("activity_words")->insert(["name" => $activityWord_name, "id_activity" => $id_activity]);
         return \redirect('/admin/showActivityWords');
+    }
+
+    public function deleteActivityWord($id){
+        DB::table("activity_words")->where("id", $id)->delete();
+        return \redirect('/admin/showActivityWords');
+    }
+
+    public function showActivity(){
+        $activityDB = DB::table("activity")->get();
+        return view('/admin/showActivity', ['activityDB'=> $activityDB]);
+    }
+
+    public function deleteActivity(){
+
+    }
+
+    public function addActivity(Request $request){
+        $activity_name = $request->input("activity");
+        DB::table("activity")->insert(["name" => $activity_name]);
+        return \redirect('/admin/showActivity');
+    }
+
+    public function showGenre(){
+        $activityDB = DB::table("activity")->get();
+        $activityWords = DB::table("activity_words")->get();
+        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
+    }
+
+    public function  deleteGenre(){
+
+    }
+
+    public function  addGenre(){
+
+    }
+
+    public function showGenreWords(){
+        $activityDB = DB::table("activity")->get();
+        $activityWords = DB::table("activity_words")->get();
+        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
+    }
+
+    public function deleteGenreWords(){
+
+    }
+
+    public function  addGenreWords(){
+
     }
     /**
      * Show the form for creating a new resource.
