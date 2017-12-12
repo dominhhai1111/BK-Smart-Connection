@@ -322,21 +322,21 @@
                 </table>
                 <div class="add-word">
                     <form action="{{route('addActivityWord')}}" method="post">
-                        <div class="row">
-                            <p class="col-xs-3">
+                        <div class="row" style="width: 1200px">
+                            <p class="col-xs-3" style="padding-right: 0; width: 270px">
                                 <label for="activityWord">Word: </label>
                                 <input type="text" name="activityWord" id="activityWord">
                             </p>
-                            <p class="col-xs-2">
+                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
                                 <label for="activity"></label>
-                                <select name="activity" id="activity">
+                                <select name="activity" id="activity" style="height: 31px; width: 120px">
                                     @foreach($activityDB as $activity)
                                         <option value="{{$activity->id}}">{{$activity->name}}</option>
                                     @endforeach
                                 </select>
                             </p>
-                            <p class="col-xs-1">
-                                <input type="submit" name="submit" value="Gửi" class="center-block">
+                            <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
+                                <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
                                 <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                             </p>
                         </div>
