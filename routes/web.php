@@ -47,6 +47,18 @@ Route::get('/admin/deleteGenreWord/{id}', "AdminController@deleteGenreWord")->na
 
 Route::post('/admin/addActivityWord', "AdminController@addActivityWord")->name("addActivityWord");
 
+Route::get('/admin/showFeelingWords', "AdminController@showFeelingWords")->name("showFeelingWords");
+
+Route::get('/admin/deleteFeelingWord/{id}', "AdminController@deleteFeelingWord")->name("deleteFeelingWord");
+
+Route::post('/admin/addFeelingWord', "AdminController@addFeelingWord")->name("addFeelingWord");
+
+Route::get('/admin/showFeeling', "AdminController@showFeeling")->name("showFeeling");
+
+Route::get('/admin/deleteFeeling/{id}', "AdminController@deleteFeeling")->name("deleteFeeling");
+
+Route::post('/admin/addFeeling', "AdminController@addFeeling")->name("addFeeling");
+
 Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicUrlForUser")->name("getMusicUrlForUser");
 
 Route::get('/playMusic/{music}', "BKSmartConnection@playMusic")->name("playMusic");
