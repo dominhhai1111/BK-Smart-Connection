@@ -259,6 +259,12 @@
                 <li>
                     <a href="{{URL::route('showGenreWords')}}"><i class="fa fa-table"></i>Genre Words</a>
                 </li>
+                <li>
+                    <a href="{{URL::route('showFeeling')}}"><i class="fa fa-qrcode"></i>Feeling</a>
+                </li>
+                <li>
+                    <a href="{{URL::route('showFeelingWords')}}"><i class="fa fa-table"></i>Feeling Words</a>
+                </li>
             </ul>
 
         </div>
@@ -267,6 +273,49 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
+            <div class="showFeelingWords">
+                <div class="add-word">
+                    <form action="{{route('addFeelingWord')}}" method="post">
+                        <div class="row" style="width: 1200px">
+                            <p class="col-xs-3" style="padding-right: 0; width: 270px">
+                                <label for="feelingWord">Word: </label>
+                                <input type="text" name="seelingWord" id="feelingWord">
+                            </p>
+                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
+                                <label for="feeling"></label>
+                                <select name="feeling" id="feeling" style="height: 31px; width: 120px">
+                                    @foreach($feelingDB as $feeling)
+                                        <option value="{{$feeling->id}}">{{$feeling->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
+                                <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
+                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <tr>
+                        <th>ID</th>
+                        <th>Word</th>
+                        <th>Activity</th>
+                        <th>Option</th>
+                    </tr>
+                    @foreach($activityWords as $activityWord)
+                        <?php
+                        $activity = DB::table("activity")->where("id", $activityWord->id_activity)->first();
+                        ?>
+                        <tr>
+                            <th>{{$activityWord->id}}</th>
+                            <th>{{$activityWord->name}}</th>
+                            <th>{{$activity->name}}</th>
+                            <th><a href="{{ URL::route("deleteActivityWord", ["id" => $activityWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
         </div>
         <!-- /. PAGE INNER  -->
     </div>

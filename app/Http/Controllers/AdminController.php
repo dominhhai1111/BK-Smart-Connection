@@ -96,6 +96,35 @@ class AdminController extends Controller
     public function  addGenreWords(){
 
     }
+
+    public function showFeeling(){
+        $feelingDB = DB::table("feeling")->get();
+        return view('/admin/showFeeling', ['feelingDB'=> $feelingDB]);
+    }
+
+    public function  deleteFeeling(){
+
+    }
+
+    public function  addFeeling(Request $request){
+        $feeling_name = $request->input("feeling");
+        DB::table("feeling")->insert(["name" => $feeling_name]);
+        return \redirect('/admin/showFeeling');
+    }
+
+    public function showFeelingWords(){
+        $feelingDB = DB::table("feeling")->get();
+        $feelingWords = DB::table("feeling_words")->get();
+        return view('/admin/showFeelingWords', ['feelingDB'=> $feelingDB, 'feelingWords' => $feelingWords]);
+    }
+
+    public function  deleteFeelingWords(){
+
+    }
+
+    public function  addFeelingWords(){
+
+    }
     /**
      * Show the form for creating a new resource.
      *
