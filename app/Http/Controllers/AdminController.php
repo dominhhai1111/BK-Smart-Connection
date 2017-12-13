@@ -59,8 +59,9 @@ class AdminController extends Controller
         return view('/admin/showActivity', ['activityDB'=> $activityDB]);
     }
 
-    public function deleteActivity(){
-
+    public function deleteActivity($id){
+        DB::table("activity")->where("id", $id)->delete();
+        return \redirect('/admin/showActivity');
     }
 
     public function addActivity(Request $request){
@@ -102,8 +103,9 @@ class AdminController extends Controller
         return view('/admin/showFeeling', ['feelingDB'=> $feelingDB]);
     }
 
-    public function  deleteFeeling(){
-
+    public function  deleteFeeling($id){
+        DB::table("feeling")->where("id", $id)->delete();
+        return \redirect('/admin/showFeeling');
     }
 
     public function  addFeeling(Request $request){
@@ -118,12 +120,16 @@ class AdminController extends Controller
         return view('/admin/showFeelingWords', ['feelingDB'=> $feelingDB, 'feelingWords' => $feelingWords]);
     }
 
-    public function  deleteFeelingWords(){
-
+    public function  deleteFeelingWord($id){
+        DB::table("feeling_words")->where("id", $id)->delete();
+        return \redirect('/admin/showFeelingWords');
     }
 
-    public function  addFeelingWords(){
-
+    public function  addFeelingWord(Request $request){
+        $feelingWord_name = $request->input("feelingWord");
+        $id_feeling = $request->input("feeling");
+        DB::table("feeling_words")->insert(["name" => $feelingWord_name, "id_feeling" => $id_feeling]);
+        return \redirect('/admin/showFeelingWords');
     }
     /**
      * Show the form for creating a new resource.

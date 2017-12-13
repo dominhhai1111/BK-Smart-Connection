@@ -259,6 +259,12 @@
                 <li>
                     <a href="{{URL::route('showGenreWords')}}"><i class="fa fa-table"></i>Genre Words</a>
                 </li>
+                <li>
+                    <a href="{{URL::route('showFeeling')}}"><i class="fa fa-qrcode"></i>Feeling</a>
+                </li>
+                <li>
+                    <a href="{{URL::route('showFeelingWords')}}"><i class="fa fa-table"></i>Feeling Words</a>
+                </li>
             </ul>
 
         </div>
