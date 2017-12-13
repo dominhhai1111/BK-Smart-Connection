@@ -128,8 +128,18 @@ class BKSmartConnection extends Controller
         return null;
     }
 
-    public function rule1($singer){
+    public function rule1($objects){
         $list_of_song = [];
+        $singers = DB::table("singer")->get();
+        foreach ($objects as $object){
+            if ($object->type == "PERSON"){
+                foreach ($singers as $singer){
+                    if ($singer->name == $object->name){
+                        $list_of_song = DB::table("song")->where("singer_id", $singer->id)->get();
+                    }
+                }
+            }
+        }
         return $list_of_song;
     }
 
@@ -156,10 +166,6 @@ class BKSmartConnection extends Controller
             }
         }
         return $list_of_song;
-    }
-
-    public function rule5(){
-
     }
 
     public function explodeMessage($message){
