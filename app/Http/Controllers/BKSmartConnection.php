@@ -8,6 +8,17 @@ use Illuminate\View\View;
 use DB;
 use TijsVerkoyen\CssToInlineStyles\Css\Rule\Rule;
 
+class Object {
+    private $name;
+    private $type;
+    private $frequency;
+}
+
+class ReObject {
+    private $score;
+    private $message;
+}
+
 class BKSmartConnection extends Controller
 {
     /**
@@ -48,6 +59,24 @@ class BKSmartConnection extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // du lieu test
+    public function setDataTest(){
+        $json = '[
+            {
+                "frequenCy":0.31585333,"name":"Adele","type":"PERSON"
+            },
+            {
+                "frequency":0.21542777,"name": "SONG","type":"WORK_OF_ART"
+            },
+            {
+                "frequency":0.21542777,"name": "SONG","type":"WORK_OF_ART"
+            }
+        ]';
+
+        $objects = json_decode($json);
+        return $objects;
+    }
+
     public function show($id)
     {
         $user = DB::table("USER")->select("id", "name")->where("id", $id)->first();
@@ -95,8 +124,6 @@ class BKSmartConnection extends Controller
     }
 
     public function findSingerMusic($objects){
-        $data = [];
-
         foreach ($objects as $object){
             if($object->type == "PERSON"){
                 $existence_in_data = DB::table("singer")->where("name", $object->name)->first();
@@ -128,48 +155,73 @@ class BKSmartConnection extends Controller
         return null;
     }
 
+    // singer
     public function rule1($objects){
-        $list_of_song = [];
-        $singers = DB::table("singer")->get();
+        $arrSingerName = [];
+        $objects = $this->setDataTest();
         foreach ($objects as $object){
             if ($object->type == "PERSON"){
-                foreach ($singers as $singer){
-                    if ($singer->name == $object->name){
-                        $list_of_song = DB::table("song")->where("singer_id", $singer->id)->get();
-                    }
-                }
+                $arrSingerName[] = $object->name;
             }
         }
-        return $list_of_song;
+        $str_singers = $this->convertMessage($arrSingerName);
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, singer.name as singer_name
+            FROM song, singer
+            WHERE song.singer_id = singer.id AND
+            singer.name IN $str_singers"
+        );
+        return var_dump($list_of_song);
     }
 
+    // Genre
     public function rule2($genre){
         $list_of_song = [];
         return $list_of_song;
     }
 
-    public function rule3($activity){
-        $list_of_song = [];
-        return $list_of_song;
+    // View
+    public function rule3($view){
+        $arrViewName = [];
+        $objects = $this->setDataTest();
+        foreach ($objects as $object){
+            if ($object->type == "LOCATION"){
+                $arrViewName[] = $object->name;
+            }
+        }
+        $str_views = $this->convertMessage($arrViewName);
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, singer.name as singer_name, view.name as view_name
+            FROM song, singer, view, song_view
+            WHERE song.singer_id = singer.id AND
+            song.id = song_view.song_id AND
+            view.id = song_view.view_id AND
+            view.name IN $str_views"
+        );
+        return var_dump($list_of_song);
     }
 
     // Feeling
     public function rule4($message){
-        $list_of_song = [];
-        $arrMessage = $this->explodeMessage($message);
-        foreach ($arrMessage as $word){
-            $feelingWords = DB::table("feeling_word")->get();
-            foreach ($feelingWords as $feelingWord){
-                if (strtolower($word) == $feelingWord->name){
-                    $list_of_song = DB::table("album")->get();
-                }
-            }
-        }
-        return $list_of_song;
+        $convertMessage = $this->convertMessage($this->explodeMessage($message));
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, feeling.name as feeling_name
+            FROM song, feeling, song_feeling, feeling_words
+            WHERE song.id = song_feeling.song_id AND 
+            feeling.id = song_feeling.feeling_id AND 
+            feeling.id = feeling_words.feeling_id AND 
+            feeling_words.name IN $convertMessage"
+        );
+        return var_dump($list_of_song);
     }
 
     public function explodeMessage($message){
         $arrMessage = explode(" ", $message);
         return $arrMessage;
+    }
+
+    public function convertMessage($message){
+        $convertMessage = "('" . implode("', '", $message) . "')";
+        return $convertMessage;
     }
 }

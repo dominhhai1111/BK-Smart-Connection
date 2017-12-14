@@ -273,21 +273,13 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-            <div class="showFeelingWords">
+            <div class="showViewWords">
                 <div class="add-word">
-                    <form action="{{route('addFeelingWord')}}" method="post">
+                    <form action="{{route('addView')}}" method="post">
                         <div class="row" style="width: 1200px">
                             <p class="col-xs-3" style="padding-right: 0; width: 270px">
-                                <label for="feelingWord">Word: </label>
-                                <input type="text" name="feelingWord" id="feelingWord">
-                            </p>
-                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
-                                <label for="feeling"></label>
-                                <select name="feeling" id="feeling" style="height: 31px; width: 120px">
-                                    @foreach($feelingDB as $feeling)
-                                        <option value="{{$feeling->id}}">{{$feeling->name}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="view">view: </label>
+                                <input type="text" name="view" id="view">
                             </p>
                             <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
                                 <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
@@ -299,19 +291,17 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
-                        <th>Word</th>
-                        <th>Feeling</th>
+                        <th>View</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($feelingWords as $feelingWord)
-                        <?php
-                        $feeling = DB::table("feeling")->where("id", $feelingWord->feeling_id)->first();
-                        ?>
+                    @foreach($viewDB as $view)
                         <tr>
-                            <th>{{$feelingWord->id}}</th>
-                            <th>{{$feelingWord->name}}</th>
-                            <th>{{$feeling->name}}</th>
-                            <th><a href="{{ URL::route("deleteFeelingWord", ["id" => $feelingWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th>{{$view->id}}</th>
+                            <th>{{$view->name}}</th>
+                            <th>
+                                <a href="{{ URL::route("deleteView", ["id" => $view->id])}}"><button class="btn-danger" onclick="">Delete</button></a>
+                                <a href="{{ URL::route("showAlbum", ["id" => $view->id])}}"><button class="btn-primary" onclick="">Album</button></a>
+                            </th>
                         </tr>
                     @endforeach
                 </table>

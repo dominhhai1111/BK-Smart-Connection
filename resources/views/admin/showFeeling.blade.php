@@ -248,16 +248,16 @@
                     <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivity')}}"><i class="fa fa-desktop"></i>Activity</a>
+                    <a href="{{URL::route('showSingers')}}"><i class="fa fa-desktop"></i>Singers</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivityWords')}}"><i class="fa fa-bar-chart-o"></i>Activity Words</a>
+                    <a href="{{URL::route('showSongs')}}"><i class="fa fa-desktop"></i>Songs</a>
+                </li>
+                <li>
+                    <a href="{{URL::route('showView')}}"><i class="fa fa-desktop"></i>View</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showGenre')}}"><i class="fa fa-qrcode"></i>Genre</a>
-                </li>
-                <li>
-                    <a href="{{URL::route('showGenreWords')}}"><i class="fa fa-table"></i>Genre Words</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showFeeling')}}"><i class="fa fa-qrcode"></i>Feeling</a>
