@@ -64,3 +64,5 @@ Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicU
 Route::get('/playMusic/{music}', "BKSmartConnection@playMusic")->name("playMusic");
 
 Route::get('/getResponse/request={request}', "ChatBotController@getResponse")->name("getResponse");
+
+Route::get('/rule4/{music}', "BKSmartConnection@rule4")->name("rule4");

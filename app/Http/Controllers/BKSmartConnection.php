@@ -8,6 +8,17 @@ use Illuminate\View\View;
 use DB;
 use TijsVerkoyen\CssToInlineStyles\Css\Rule\Rule;
 
+class Object {
+    private $name;
+    private $type;
+    private $frequency;
+}
+
+class ReObject {
+    private $score;
+    private $message;
+}
+
 class BKSmartConnection extends Controller
 {
     /**
@@ -48,6 +59,11 @@ class BKSmartConnection extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // du lieu test
+    public function setDataTest(){
+
+    }
+
     public function show($id)
     {
         $user = DB::table("USER")->select("id", "name")->where("id", $id)->first();
@@ -146,16 +162,23 @@ class BKSmartConnection extends Controller
     // Feeling
     public function rule4($message){
         $list_of_song = [];
-        $arrMessage = $this->explodeMessage($message);
-        foreach ($arrMessage as $word){
-            $feelingWords = DB::table("feeling_word")->get();
-            foreach ($feelingWords as $feelingWord){
-                if (strtolower($word) == $feelingWord->name){
-                    $list_of_song = DB::table("album")->get();
-                }
-            }
-        }
-        return $list_of_song;
+//        $arrMessage = $this->explodeMessage($message);
+//        foreach ($arrMessage as $word){
+//            $feelingWords = DB::table("feeling_word")->get();
+//            foreach ($feelingWords as $feelingWord){
+//                if (strtolower($word) == $feelingWord->name){
+//                    $list_of_song = DB::table("album")->where("id")->get();
+//                }
+//            }
+//        }
+        $list_of_song = DB::table("song")
+                    ->leftJoin("song_feeling", "song.id" , "=", "song_feeling.song_id")
+                    ->leftJoin("feeling", "feeling.id" , "=", "song_feeling.feeling_id")
+                    ->leftJoin("feeling_words", "feeling_words.feeling_id" , "=", "feeling.id")
+                    ->select("song.name", "feeling.name")
+                    ->where("feeling_words.name", "love")
+                    ->get();
+        return var_dump($list_of_song);
     }
 
     public function rule5(){
