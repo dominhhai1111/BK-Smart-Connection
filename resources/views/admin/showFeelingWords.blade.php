@@ -279,7 +279,7 @@
                         <div class="row" style="width: 1200px">
                             <p class="col-xs-3" style="padding-right: 0; width: 270px">
                                 <label for="feelingWord">Word: </label>
-                                <input type="text" name="seelingWord" id="feelingWord">
+                                <input type="text" name="feelingWord" id="feelingWord">
                             </p>
                             <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
                                 <label for="feeling"></label>
@@ -300,18 +300,18 @@
                     <tr>
                         <th>ID</th>
                         <th>Word</th>
-                        <th>Activity</th>
+                        <th>Feeling</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($activityWords as $activityWord)
+                    @foreach($feelingWords as $feelingWord)
                         <?php
-                        $activity = DB::table("activity")->where("id", $activityWord->id_activity)->first();
+                        $feeling = DB::table("feeling")->where("id", $feelingWord->id_feeling)->first();
                         ?>
                         <tr>
-                            <th>{{$activityWord->id}}</th>
-                            <th>{{$activityWord->name}}</th>
-                            <th>{{$activity->name}}</th>
-                            <th><a href="{{ URL::route("deleteActivityWord", ["id" => $activityWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th>{{$feelingWord->id}}</th>
+                            <th>{{$feelingWord->name}}</th>
+                            <th>{{$feeling->name}}</th>
+                            <th><a href="{{ URL::route("deleteFeelingWord", ["id" => $feelingWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
                         </tr>
                     @endforeach
                 </table>
