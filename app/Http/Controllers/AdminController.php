@@ -139,7 +139,61 @@ class AdminController extends Controller
         return \redirect('admin/showSingers');
     }
 
-    public function showAlbum($id){
+    public function showAlbumView($id){
+    $viewDB = DB::table("view")->where("id", $id)->first();
+    $albumView = DB::table("song_view")->where("view_id", $id)->get();
+    $songDB = DB::table("song")->get();
+    return view('/admin/showAlbumView', ['viewDB' => $viewDB, 'albumView' => $albumView, 'songDB' => $songDB]);
+}
 
+    public function deleteSongInAlbumView($song_id, $view_id){
+        DB::table("song_view")->where(["song_id" => $song_id, "view_id" => $view_id])->delete();
+        return \redirect("/admin/showAlbumView/$view_id");
+    }
+
+    public function addSongToAlbumView($song_id, $view_id){
+        $song_view = DB::table("song_view")->where(["song_id" => $song_id, "view_id" => $view_id])->first();
+        if($song_view == null){
+            DB::table("song_view")->insert(["song_id" => $song_id, "view_id" => $view_id]);
+        }
+        return \redirect("/admin/showAlbumView/$view_id");
+    }
+
+    public function showAlbumGenre($id){
+        $songDB = DB::table("song")->where("genre_id", id)->get();
+       // return view('/admin/showAlbumGenre', ['genreDB' => $genreDB, 'albumGenre' => $albumGenre, 'songDB' => $songDB]);
+    }
+
+    public function deleteSongInAlbumGenre($song_id, $genre_id){
+        DB::table("song_genre")->where(["song_id" => $song_id, "genre_id" => $genre_id])->delete();
+        return \redirect("/admin/showAlbumGenre/$genre_id");
+    }
+
+    public function addSongToAlbumGenre($song_id, $genre_id){
+        $song_genre = DB::table("song_genre")->where(["song_id" => $song_id, "genre_id" => $genre_id])->first();
+        if($song_genre == null){
+            DB::table("song_genre")->insert(["song_id" => $song_id, "genre_id" => $genre_id]);
+        }
+        return \redirect("/admin/showAlbumGenre/$genre_id");
+    }
+
+    public function showAlbumFeeling($id){
+        $feelingDB = DB::table("feeling")->where("id", $id)->first();
+        $AlbumFeeling = DB::table("song_feeling")->where("feeling_id", $id)->get();
+        $songDB = DB::table("song")->get();
+        return view('/admin/showAlbumFeeling', ['feelingDB' => $feelingDB, 'albumFeeling' => $AlbumFeeling, 'songDB' => $songDB]);
+    }
+
+    public function deleteSongInAlbumFeeling($song_id, $feeling_id){
+        DB::table("song_feeling")->where(["song_id" => $song_id, "feeling_id" => $feeling_id])->delete();
+        return \redirect("/admin/showAlbumFeeling/$feeling_id");
+    }
+
+    public function addSongToAlbumFeeling($song_id, $feeling_id){
+        $song_feeling = DB::table("song_feeling")->where(["song_id" => $song_id, "feeling_id" => $feeling_id])->first();
+        if($song_feeling == null){
+            DB::table("song_feeling")->insert(["song_id" => $song_id, "feeling_id" => $feeling_id]);
+        }
+        return \redirect("/admin/showAlbumFeeling/$feeling_id");
     }
 }

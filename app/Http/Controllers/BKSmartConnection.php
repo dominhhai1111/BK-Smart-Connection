@@ -21,44 +21,9 @@ class ReObject {
 
 class BKSmartConnection extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-/*        DB::table("user")->insert(["name"=>"BlackFriday13"]);*/
-        return view('top-page');
+    public function test($object1, $object2){
+        return var_dump($object1);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // du lieu test
     public function setDataTest(){
         $json = '[
@@ -175,9 +140,15 @@ class BKSmartConnection extends Controller
     }
 
     // Genre
-    public function rule2($genre){
-        $list_of_song = [];
-        return $list_of_song;
+    public function rule2($message){
+        $convertMessage = $this->convertMessage($this->explodeMessage($message));
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, genre.name as genre_name
+            FROM song, genre, song_genre
+            WHERE genre.id = song.genre_id AND 
+            genre.name IN $convertMessage"
+        );
+        return var_dump($list_of_song);
     }
 
     // View
@@ -213,6 +184,21 @@ class BKSmartConnection extends Controller
             feeling_words.name IN $convertMessage"
         );
         return var_dump($list_of_song);
+    }
+
+    // Singer + Genre
+    public function rule5($singer, $genre){
+
+    }
+
+    // View + Feeling
+    public function  rule6($view, $feeling){
+
+    }
+
+    // Genre + Feeling
+    public  function  rule7($genre, $feeling){
+
     }
 
     public function explodeMessage($message){
