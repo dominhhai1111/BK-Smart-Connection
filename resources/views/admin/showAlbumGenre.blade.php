@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="genreport" content="width=device-width, initial-scale=1.0" />
     <title>Free Bootstrap Admin Template : Dream</title>
     <!-- Bootstrap Styles-->
-    <link href="../resources/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
-    <link href="../resources/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/font-awesome.css" rel="stylesheet" />
     <!-- Morris Chart Styles-->
-    <link href="../resources/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="../../resources/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <!-- Custom Styles-->
-    <link href="../resources/assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/custom-styles.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="../resources/assets/css/style.css">
+    <link rel="stylesheet" href="../../resources/assets/css/style.css">
 </head>
 
 <body>
@@ -273,39 +273,47 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-            <div class="showGenreWords">
-                <div class="add-word">
-                    <form action="{{route('addGenre')}}" method="post">
-                        <div class="row" style="width: 1200px">
-                            <p class="col-xs-3" style="padding-right: 0; width: 270px">
-                                <label for="genre">Genre: </label>
-                                <input type="text" name="genre" id="genre">
-                            </p>
-                            <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
-                                <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
-                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                            </p>
-                        </div>
-                    </form>
-                </div>
+            <p style="font-weight: bold">Genre: {{$genreDB->name}}</p>
+            <div class="showSongInAlbumgenre" style="overflow: scroll; height: 250px">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
-                        <th>Genre</th>
+                        <th>Song</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($genreDB as $genre)
+                    @if($albumGenre != null)
+                        @foreach($albumGenre as $song)
+                            <?php $songGenre = DB::table("song")->where("id", $song->song_id)->first();?>
+                            <tr>
+                                <th>{{$songGenre->id}}</th>
+                                <th>{{$songGenre->name}}</th>
+                                <th>
+                                    <a href="{{ URL::route("deleteSongInAlbumGenre", ["song_id" => $songGenre->id, "genre_id" => $genreDB->id])}}"><button class="btn-danger" onclick="">Delete</button></a>
+                                </th>
+                            </tr>
+                        @endforeach
+                    @endif
+                </table>
+            </div>
+{{--            <p style="font-weight: bold">Add a new song</p>
+            <div class="showSongs" style="overflow: scroll; height: 250px">
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <tr>
+                        <th>ID</th>
+                        <th>Song</th>
+                        <th>Option</th>
+                    </tr>
+                    @foreach($songDB as $song)
                         <tr>
-                            <th>{{$genre->id}}</th>
-                            <th>{{$genre->name}}</th>
+                            <th>{{$song->id}}</th>
+                            <th>{{$song->name}}</th>
                             <th>
-                                <a href="{{ URL::route("deleteGenre", ["id" => $genre->id])}}"><button class="btn-danger" onclick="">Delete</button></a>
-                                {{--<a href="{{ URL::route("showAlbumGenre", ["id" => $genre->id])}}"><button class="btn-primary" onclick="">Album</button></a>--}}
+                                <a href="{{ URL::route("addSongToAlbumGenre", ["song_id" => $song->id, "genre_id" => $genreDB->id])}}"><button class="btn-primary" onclick="">Add</button></a>
                             </th>
                         </tr>
                     @endforeach
                 </table>
-            </div>
+            </div>--}}
         </div>
         <!-- /. PAGE INNER  -->
     </div>
@@ -314,16 +322,16 @@
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script src="../resources/assets/js/jquery-1.10.2.js"></script>
+<script src="../../resources/assets/js/jquery-1.10.2.js"></script>
 <!-- Bootstrap Js -->
-<script src="../resources/assets/js/bootstrap.min.js"></script>
+<script src="../../resources/assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
-<script src="../resources/assets/js/jquery.metisMenu.js"></script>
+<script src="../../resources/assets/js/jquery.metisMenu.js"></script>
 <!-- Morris Chart Js -->
-<script src="../resources/assets/js/morris/raphael-2.1.0.min.js"></script>
-<script src="../resources/assets/js/morris/morris.js"></script>
+<script src="../../resources/assets/js/morris/raphael-2.1.0.min.js"></script>
+<script src="../../resources/assets/js/morris/morris.js"></script>
 <!-- Custom Js -->
-<script src="../resources/assets/js/custom-scripts.js"></script>
+<script src="../../resources/assets/js/custom-scripts.js"></script>
 
 
 </body>

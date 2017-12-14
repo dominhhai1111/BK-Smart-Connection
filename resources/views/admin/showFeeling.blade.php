@@ -298,7 +298,10 @@
                         <tr>
                             <th>{{$feeling->id}}</th>
                             <th>{{$feeling->name}}</th>
-                            <th><a href="{{ URL::route("deleteFeeling", ["id" => $feeling->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th>
+                                <a href="{{ URL::route("deleteFeeling", ["id" => $feeling->id])}}"><button class="btn-danger" onclick="">Delete</button></a>
+                                <a href="{{ URL::route("showAlbumFeeling", ["id" => $feeling->id])}}"><button class="btn-primary" onclick="">Album</button></a>
+                            </th>
                         </tr>
                     @endforeach
                 </table>

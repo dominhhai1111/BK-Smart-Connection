@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/test/{object1}/{object2}', "BKSmartConnection@test")->name("test");
 Route::get('/', "BKSmartConnection@index")->name("top-page");
 Route::get('/admin', "AdminController@index")->name("admin-page");
 Route::get('/admin/showAllUsers', "AdminController@showAllUsers")->name("showAllUsers");
@@ -42,7 +42,17 @@ Route::get('/admin/showSingers', "AdminController@showSingers")->name("showSinge
 Route::get('/admin/deleteSinger/{id}', "AdminController@deleteSinger")->name("deleteSinger");
 Route::post('/admin/addSinger', "AdminController@addSinger")->name("addSinger");
 
-Route::get('/admin/showAlbum', "AdminController@showAlbum")->name("showAlbum");
+Route::get('/admin/showAlbumView/{id}', "AdminController@showAlbumView")->name("showAlbumView");
+Route::get('/admin/deleteSongInAlbumView/{song_id}/{view_id}', "AdminController@deleteSongInAlbumView")->name("deleteSongInAlbumView");
+Route::get('/admin/addSongToAlbumView/{song_id}/{view_id}', "AdminController@addSongToAlbumView")->name("addSongToAlbumView");
+
+Route::get('/admin/showAlbumGenre/{id}', "AdminController@showAlbumGenre")->name("showAlbumGenre");
+Route::get('/admin/deleteSongInAlbumGenre/{song_id}/{Genre_id}', "AdminController@deleteSongInAlbumGenre")->name("deleteSongInAlbumGenre");
+Route::get('/admin/addSongToAlbumGenre/{song_id}/{Genre_id}', "AdminController@addSongToAlbumGenre")->name("addSongToAlbumGenre");
+
+Route::get('/admin/showAlbumFeeling/{id}', "AdminController@showAlbumFeeling")->name("showAlbumFeeling");
+Route::get('/admin/deleteSongInAlbumFeeling/{song_id}/{feeling_id}', "AdminController@deleteSongInAlbumFeeling")->name("deleteSongInAlbumFeeling");
+Route::get('/admin/addSongToAlbumFeeling/{song_id}/{feeling_id}', "AdminController@addSongToAlbumFeeling")->name("addSongToAlbumFeeling");
 
 Route::get('/getMusicUrlForUser/{score}/{objects}', "BKSmartConnection@getMusicUrlForUser")->name("getMusicUrlForUser");
 Route::get('/playMusic/{music}', "BKSmartConnection@playMusic")->name("playMusic");
