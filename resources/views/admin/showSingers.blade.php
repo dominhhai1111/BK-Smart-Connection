@@ -248,16 +248,16 @@
                     <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivity')}}"><i class="fa fa-desktop"></i>Activity</a>
+                    <a href="{{URL::route('showSingers')}}"><i class="fa fa-desktop"></i>Singers</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivityWords')}}"><i class="fa fa-bar-chart-o"></i>Activity Words</a>
+                    <a href="{{URL::route('showSongs')}}"><i class="fa fa-desktop"></i>Songs</a>
+                </li>
+                <li>
+                    <a href="{{URL::route('showView')}}"><i class="fa fa-desktop"></i>View</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showGenre')}}"><i class="fa fa-qrcode"></i>Genre</a>
-                </li>
-                <li>
-                    <a href="{{URL::route('showGenreWords')}}"><i class="fa fa-table"></i>Genre Words</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showFeeling')}}"><i class="fa fa-qrcode"></i>Feeling</a>
@@ -273,21 +273,13 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-            <div class="showActivityWords">
+            <div class="showSingers">
                 <div class="add-word">
-                    <form action="{{route('addActivityWord')}}" method="post">
+                    <form action="{{route('addSinger')}}" method="post">
                         <div class="row" style="width: 1200px">
                             <p class="col-xs-3" style="padding-right: 0; width: 270px">
-                                <label for="activityWord">Word: </label>
-                                <input type="text" name="activityWord" id="activityWord">
-                            </p>
-                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 140px">
-                                <label for="activity"></label>
-                                <select name="activity" id="activity" style="height: 31px; width: 120px">
-                                    @foreach($activityDB as $activity)
-                                        <option value="{{$activity->id}}">{{$activity->name}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="singer">Singer: </label>
+                                <input type="text" name="singer" id="singer">
                             </p>
                             <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
                                 <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
@@ -299,19 +291,14 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
-                        <th>Word</th>
-                        <th>Activity</th>
+                        <th>Singer</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($activityWords as $activityWord)
-                        <?php
-                            $activity = DB::table("activity")->where("id", $activityWord->id_activity)->first();
-                        ?>
+                    @foreach($singerDB as $singer)
                         <tr>
-                            <th>{{$activityWord->id}}</th>
-                            <th>{{$activityWord->name}}</th>
-                            <th>{{$activity->name}}</th>
-                            <th><a href="{{ URL::route("deleteActivityWord", ["id" => $activityWord->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th>{{$singer->id}}</th>
+                            <th>{{$singer->name}}</th>
+                            <th><a href="{{ URL::route("deleteSinger", ["id" => $singer->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
                         </tr>
                     @endforeach
                 </table>

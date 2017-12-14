@@ -248,16 +248,16 @@
                     <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivity')}}"><i class="fa fa-desktop"></i>Activity</a>
+                    <a href="{{URL::route('showSingers')}}"><i class="fa fa-desktop"></i>Singers</a>
                 </li>
                 <li>
-                    <a href="{{URL::route('showActivityWords')}}"><i class="fa fa-bar-chart-o"></i>Activity Words</a>
+                    <a href="{{URL::route('showSongs')}}"><i class="fa fa-desktop"></i>Songs</a>
+                </li>
+                <li>
+                    <a href="{{URL::route('showView')}}"><i class="fa fa-desktop"></i>View</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showGenre')}}"><i class="fa fa-qrcode"></i>Genre</a>
-                </li>
-                <li>
-                    <a href="{{URL::route('showGenreWords')}}"><i class="fa fa-table"></i>Genre Words</a>
                 </li>
                 <li>
                     <a href="{{URL::route('showFeeling')}}"><i class="fa fa-qrcode"></i>Feeling</a>
@@ -273,13 +273,33 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-            <div class="showActivityWords">
+            <div class="showSongs">
                 <div class="add-word">
-                    <form action="{{route('addActivity')}}" method="post">
+                    <form action="{{route('addSong')}}" method="post">
                         <div class="row" style="width: 1200px">
                             <p class="col-xs-3" style="padding-right: 0; width: 270px">
-                                <label for="activity">Activity: </label>
-                                <input type="text" name="activity" id="activity">
+                                <label for="song">Song: </label>
+                                <input type="text" name="song" id="song">
+                            </p>
+                            <p class="col-xs-4" style="padding-right: 0; padding-left: 10px; width: 189px">
+                                <label for="singer">Singer: </label>
+                                <select name="singer" id="singer" style="height: 31px; width: 120px">
+                                    @foreach($singerDB as $singer)
+                                        <option value="{{$singer->id}}">{{$singer->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="col-xs-2" style="padding-right: 0; padding-left: 10px; width: 185px">
+                                <label for="genre">Genre</label>
+                                <select name="genre" id="genre" style="height: 31px; width: 120px">
+                                    @foreach($genreDB as $genre)
+                                        <option value="{{$genre->id}}">{{$genre->name}}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                            <p class="col-xs-2" style="padding-right: 0; width: 270px">
+                                <label for="url">Url: </label>
+                                <input type="text" name="url" id="url">
                             </p>
                             <p class="col-xs-1" style="padding-right: 0; padding-left: 10px; width: 50px">
                                 <input type="submit" name="submit" value="Add" class="center-block btn-primary" saty>
@@ -291,14 +311,23 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <tr>
                         <th>ID</th>
-                        <th>Activity</th>
+                        <th>Song</th>
+                        <th>Singer</th>
+                        <th>Genre</th>
+                        <th>Url</th>
                         <th>Option</th>
                     </tr>
-                    @foreach($activityDB as $activity)
+                    @foreach($songDB as $song)
+                        <?php
+                            $singer = DB::table("singer")->where("id", $song->singer_id)->first();
+                        ?>
                         <tr>
-                            <th>{{$activity->id}}</th>
-                            <th>{{$activity->name}}</th>
-                            <th><a href="{{ URL::route("deleteActivity", ["id" => $activity->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
+                            <th>{{$song->id}}</th>
+                            <th>{{$song->name}}</th>
+                            <th>{{$singer->name}}</th>
+                            <th>{{$genre->name}}</th>
+                            <th>{{$song->url}}</th>
+                            <th><a href="{{ URL::route("deleteSong", ["id" => $song->id])}}"><button class="btn-danger" onclick="">Delete</button></a></th>
                         </tr>
                     @endforeach
                 </table>

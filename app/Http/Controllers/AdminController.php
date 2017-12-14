@@ -36,66 +36,36 @@ class AdminController extends Controller
         return view('/admin/showSolutions', ['solutions' => $solutions]);
     }
 
-    public function showActivityWords(){
-        $activityDB = DB::table("activity")->get();
-        $activityWords = DB::table("activity_words")->get();
-        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
-    }
-
-    public function addActivityWord(Request $request){
-        $activityWord_name = $request->input("activityWord");
-        $id_activity = $request->input("activity");
-        DB::table("activity_words")->insert(["name" => $activityWord_name, "id_activity" => $id_activity]);
-        return \redirect('/admin/showActivityWords');
-    }
-
-    public function deleteActivityWord($id){
-        DB::table("activity_words")->where("id", $id)->delete();
-        return \redirect('/admin/showActivityWords');
-    }
-
-    public function showActivity(){
-        $activityDB = DB::table("activity")->get();
-        return view('/admin/showActivity', ['activityDB'=> $activityDB]);
-    }
-
-    public function deleteActivity($id){
-        DB::table("activity")->where("id", $id)->delete();
-        return \redirect('/admin/showActivity');
-    }
-
-    public function addActivity(Request $request){
-        $activity_name = $request->input("activity");
-        DB::table("activity")->insert(["name" => $activity_name]);
-        return \redirect('/admin/showActivity');
-    }
-
     public function showGenre(){
-        $activityDB = DB::table("activity")->get();
-        $activityWords = DB::table("activity_words")->get();
-        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
+        $genreDB = DB::table("genre")->get();
+        return view('/admin/showGenre', ['genreDB' => $genreDB]);
     }
 
-    public function  deleteGenre(){
-
+    public function deleteGenre($id){
+        DB::table("genre")->where("id", $id)->delete();
+        return \redirect('/admin/showGenre');
     }
 
-    public function  addGenre(){
-
+    public function  addGenre(Request $request){
+        $genre_name = $request->input("genre");
+        DB::table("genre")->insert(["name" => $genre_name]);
+        return \redirect('/admin/showGenre');
     }
 
-    public function showGenreWords(){
-        $activityDB = DB::table("activity")->get();
-        $activityWords = DB::table("activity_words")->get();
-        return view('/admin/showActivityWords', ['activityDB'=> $activityDB, 'activityWords' => $activityWords]);
+    public function showView(){
+        $viewDB = DB::table("view")->get();
+        return view('/admin/showView', ['viewDB' => $viewDB]);
     }
 
-    public function deleteGenreWords(){
-
+    public function deleteView($id){
+        DB::table("view")->where("id", $id)->delete();
+        return \redirect('/admin/showView');
     }
 
-    public function  addGenreWords(){
-
+    public function  addView(Request $request){
+        $view_name = $request->input("view");
+        DB::table("view")->insert(["name" => $view_name]);
+        return \redirect('/admin/showView');
     }
 
     public function showFeeling(){
@@ -103,12 +73,12 @@ class AdminController extends Controller
         return view('/admin/showFeeling', ['feelingDB'=> $feelingDB]);
     }
 
-    public function  deleteFeeling($id){
+    public function deleteFeeling($id){
         DB::table("feeling")->where("id", $id)->delete();
         return \redirect('/admin/showFeeling');
     }
 
-    public function  addFeeling(Request $request){
+    public function addFeeling(Request $request){
         $feeling_name = $request->input("feeling");
         DB::table("feeling")->insert(["name" => $feeling_name]);
         return \redirect('/admin/showFeeling');
@@ -120,80 +90,56 @@ class AdminController extends Controller
         return view('/admin/showFeelingWords', ['feelingDB'=> $feelingDB, 'feelingWords' => $feelingWords]);
     }
 
-    public function  deleteFeelingWord($id){
+    public function deleteFeelingWord($id){
         DB::table("feeling_words")->where("id", $id)->delete();
         return \redirect('/admin/showFeelingWords');
     }
 
-    public function  addFeelingWord(Request $request){
+    public function addFeelingWord(Request $request){
         $feelingWord_name = $request->input("feelingWord");
-        $id_feeling = $request->input("feeling");
-        DB::table("feeling_words")->insert(["name" => $feelingWord_name, "id_feeling" => $id_feeling]);
+        $feeling_id = $request->input("feeling");
+        DB::table("feeling_words")->insert(["name" => $feelingWord_name, "feeling_id" => $feeling_id]);
         return \redirect('/admin/showFeelingWords');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+
+    public function showSongs(){
+        $songDB = DB::table("song")->get();
+        $singerDB = DB::table("singer")->get();
+        $genreDB = DB::table("genre")->get();
+        return view('/admin/showSongs', ["songDB" => $songDB, 'singerDB' => $singerDB, 'genreDB' => $genreDB]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function addSong(Request $request){
+        $song_name = $request->input("song");
+        $singer_id = $request->input("singer");
+        $genre_id = $request->input("genre");
+        $url = $request->input("url");
+        DB::table("song")->insert(["name" => $song_name, "singer_id" => $singer_id, "genre_id" => $genre_id ,"url" => $url]);
+        return \redirect('admin/showSongs');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function deleteSong($id){
+        DB::table("song")->where("id", $id)->delete();
+        return \redirect('admin/showSongs');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function showSingers(){
+        $singerDB = DB::table("singer")->get();
+        return view('/admin/showSingers', ['singerDB' => $singerDB]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function addSinger(Request $request){
+        $singer_name = $request->input("singer");
+        DB::table("singer")->insert(["name" => $singer_name]);
+        return \redirect('admin/showSingers');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function deleteSinger($id){
+        DB::table("singer")->where("id", $id)->delete();
+        return \redirect('admin/showSingers');
+    }
+
+    public function showAlbum($id){
+
     }
 }
