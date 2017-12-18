@@ -320,6 +320,7 @@
                     @foreach($songDB as $song)
                         <?php
                             $singer = DB::table("singer")->where("id", $song->singer_id)->first();
+                            $genre = DB::table("genre")->where("id", $song->genre_id)->first();
                         ?>
                         <tr>
                             <th>{{$song->id}}</th>

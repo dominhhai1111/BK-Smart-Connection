@@ -11,6 +11,7 @@
 |
 */
 Route::get('/test/{object1}/{object2}', "BKSmartConnection@test")->name("test");
+Route::get('/ruletest1', "BKSmartConnection@ruletest1")->name("ruletest1");
 Route::get('/', "BKSmartConnection@index")->name("top-page");
 Route::get('/admin', "AdminController@index")->name("admin-page");
 Route::get('/admin/showAllUsers', "AdminController@showAllUsers")->name("showAllUsers");

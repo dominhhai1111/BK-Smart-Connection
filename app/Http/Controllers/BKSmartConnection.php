@@ -8,38 +8,11 @@ use Illuminate\View\View;
 use DB;
 use TijsVerkoyen\CssToInlineStyles\Css\Rule\Rule;
 
-class Object {
-    private $name;
-    private $type;
-    private $frequency;
-}
-
-class ReObject {
-    private $score;
-    private $message;
-}
-
 class BKSmartConnection extends Controller
 {
     public function test($object1, $object2){
-        return var_dump($object1);
-    }
-    // du lieu test
-    public function setDataTest(){
-        $json = '[
-            {
-                "frequenCy":0.31585333,"name":"Adele","type":"PERSON"
-            },
-            {
-                "frequency":0.21542777,"name": "SONG","type":"WORK_OF_ART"
-            },
-            {
-                "frequency":0.21542777,"name": "SONG","type":"WORK_OF_ART"
-            }
-        ]';
-
-        $objects = json_decode($json);
-        return $objects;
+        $result = json_encode($this->getResult(json_decode($object1), json_decode($object2)));
+        return $result;
     }
 
     public function show($id)
@@ -105,25 +78,55 @@ class BKSmartConnection extends Controller
         return redirect("/public/uploads/music/".$music);
     }
 
-    public function getResult($message, $score, $objects){
+    public function getResult($object1, $object2){
         //TODO
-        $data = [];
-        if ($this->rule1($data)){
-            return $this->rule1($data);
-        }elseif ($this->rule2($data)){
-            return $this->rule2($data);
-        }elseif ($this->rule3($data)){
-            return $this->rule3($data);
-        }elseif ($this->rule4($data)){
-            return $this->rule4($data);
+        $result = ["rule1" => 0, "rule2" => 0, "rule3" => 0, "rule4" => 0, "rule5" => 0, "rule6" => 0, "rule7" => 0];
+        if ($this->rule1($object1)){
+            $result["rule1"] = 1;
+        }
+        if ($this->rule2($object2)) {
+            $result["rule2"] = 1;
+        }
+        if ($this->rule3($object1)){
+            $result["rule3"] = 1;
+        }
+        if ($this->rule4($object2)) {
+            $result["rule4"] = 1;
+        }
+        if ($result["rule1"] && $result["rule2"]) {
+            if($this->rule5($object1, $object2)){
+                $result["rule5"] = 1;
+                return $this->rule5($object1, $object2);
+            }
+        }
+        if ($result["rule3"] && $result["rule4"]) {
+            if($this->rule6($object1, $object2)){
+                $result["rule6"] = 1;
+            }
+        }
+        if ($result["rule2"] && $result["rule4"]) {
+            if($this->rule7($object1, $object2)){
+                $result["rule7"] = 1;
+            }
+        }
+        for ($i = sizeof($result); $i > 0; $i--){
+            if ($result["rule" . $i]){
+                switch ($i){
+                    case 1: return $this->rule1($object1);
+                    case 2: return $this->rule2($object2);
+                    case 3: return $this->rule3($object1);
+                    case 4: return $this->rule4($object2);
+                    case 5: return $this->rule5($object1, $object2);
+                    case 6: return $this->rule6($object1, $object2);
+                    case 7: return $this->rule7($object1, $object2);
+                }
+            }
         }
         return null;
     }
-
     // singer
     public function rule1($objects){
         $arrSingerName = [];
-        $objects = $this->setDataTest();
         foreach ($objects as $object){
             if ($object->type == "PERSON"){
                 $arrSingerName[] = $object->name;
@@ -131,30 +134,28 @@ class BKSmartConnection extends Controller
         }
         $str_singers = $this->convertMessage($arrSingerName);
         $list_of_song = DB::select(
-            "SELECT song.name as song_name, singer.name as singer_name
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
             FROM song, singer
             WHERE song.singer_id = singer.id AND
             singer.name IN $str_singers"
         );
-        return var_dump($list_of_song);
+        return $list_of_song;
     }
-
     // Genre
-    public function rule2($message){
-        $convertMessage = $this->convertMessage($this->explodeMessage($message));
+    public function rule2($object2){
+        $convertMessage = $this->convertMessage($this->explodeMessage($object2->document));
         $list_of_song = DB::select(
-            "SELECT song.name as song_name, genre.name as genre_name
-            FROM song, genre, song_genre
-            WHERE genre.id = song.genre_id AND 
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
+            FROM song, genre, singer
+            WHERE genre.id = song.genre_id AND
+            song.singer_id = singer.id AND
             genre.name IN $convertMessage"
         );
-        return var_dump($list_of_song);
+        return $list_of_song;
     }
-
     // View
-    public function rule3($view){
+    public function rule3($objects){
         $arrViewName = [];
-        $objects = $this->setDataTest();
         foreach ($objects as $object){
             if ($object->type == "LOCATION"){
                 $arrViewName[] = $object->name;
@@ -162,43 +163,65 @@ class BKSmartConnection extends Controller
         }
         $str_views = $this->convertMessage($arrViewName);
         $list_of_song = DB::select(
-            "SELECT song.name as song_name, singer.name as singer_name, view.name as view_name
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
             FROM song, singer, view, song_view
             WHERE song.singer_id = singer.id AND
             song.id = song_view.song_id AND
             view.id = song_view.view_id AND
             view.name IN $str_views"
         );
-        return var_dump($list_of_song);
+        return $list_of_song;
     }
-
     // Feeling
-    public function rule4($message){
-        $convertMessage = $this->convertMessage($this->explodeMessage($message));
+    public function rule4($object2){
+        $convertMessage = $this->convertMessage($this->explodeMessage($object2->document));
         $list_of_song = DB::select(
-            "SELECT song.name as song_name, feeling.name as feeling_name
-            FROM song, feeling, song_feeling, feeling_words
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
+            FROM song, feeling, song_feeling, feeling_words, singer
             WHERE song.id = song_feeling.song_id AND 
-            feeling.id = song_feeling.feeling_id AND 
+            feeling.id = song_feeling.feeling_id AND
+            song.singer_id = singer.id AND
             feeling.id = feeling_words.feeling_id AND 
             feeling_words.name IN $convertMessage"
         );
-        return var_dump($list_of_song);
+        return $list_of_song;
     }
-
     // Singer + Genre
-    public function rule5($singer, $genre){
+    public function rule5($object1, $object2){
+        $arrSingerName = [];
+        foreach ($object1 as $object){
+            if ($object->type == "PERSON"){
+                $arrSingerName[] = $object->name;
+            }
+        }
+        $str_singers = $this->convertMessage($arrSingerName);
+        $convertMessage = $this->convertMessage($this->explodeMessage($object2->document));
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
+            FROM song, genre, singer
+            WHERE genre.id = song.genre_id AND
+            song.singer_id = singer.id AND
+            genre.name IN $convertMessage AND song.id IN 
+            (SELECT song.id
+            FROM song, singer
+            WHERE song.singer_id = singer.id AND
+            singer.name IN $str_singers)"
+        );
 
+        return $list_of_song;
     }
-
     // View + Feeling
-    public function  rule6($view, $feeling){
-
+    public function  rule6($object1, $object2){
+        return array_intersect($this->rule3($object1), $this->rule4($object2));
     }
-
     // Genre + Feeling
-    public  function  rule7($genre, $feeling){
-
+    public  function  rule7($object1, $object2){
+        return array_intersect($this->rule2($object2), $this->rule4($object2));
+    }
+    
+    public function ruletest1(){
+        $result = DB::table("song")->get();
+        return $result;
     }
 
     public function explodeMessage($message){
