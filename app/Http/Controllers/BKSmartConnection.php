@@ -96,7 +96,6 @@ class BKSmartConnection extends Controller
         if ($result["rule1"] && $result["rule2"]) {
             if($this->rule5($object1, $object2)){
                 $result["rule5"] = 1;
-                return $this->rule5($object1, $object2);
             }
         }
         if ($result["rule3"] && $result["rule4"]) {
@@ -212,11 +211,52 @@ class BKSmartConnection extends Controller
     }
     // View + Feeling
     public function  rule6($object1, $object2){
-        return array_intersect($this->rule3($object1), $this->rule4($object2));
+        $arrViewName = [];
+        foreach ($object1 as $object){
+            if ($object->type == "LOCATION"){
+                $arrViewName[] = $object->name;
+            }
+        }
+        $str_views = $this->convertMessage($arrViewName);
+        $convertMessage = $this->convertMessage($this->explodeMessage($object2->document));
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
+            FROM song, singer, view, song_view
+            WHERE song.singer_id = singer.id AND
+            song.id = song_view.song_id AND
+            view.id = song_view.view_id AND
+            view.name IN $str_views AND
+            song.id IN 
+            (SELECT song.id
+            FROM song, feeling, song_feeling, feeling_words, singer
+            WHERE song.id = song_feeling.song_id AND 
+            feeling.id = song_feeling.feeling_id AND
+            song.singer_id = singer.id AND
+            feeling.id = feeling_words.feeling_id AND 
+            feeling_words.name IN $convertMessage)"
+        );
+        return $list_of_song;
     }
     // Genre + Feeling
     public  function  rule7($object1, $object2){
-        return array_intersect($this->rule2($object2), $this->rule4($object2));
+        $convertMessage = $this->convertMessage($this->explodeMessage($object2->document));
+        $list_of_song = DB::select(
+            "SELECT song.name as song_name, singer.name as singer_name, song.url
+            FROM song, genre, singer
+            WHERE genre.id = song.genre_id AND
+            song.singer_id = singer.id AND
+            genre.name IN $convertMessage AND 
+            song.id IN 
+            (SELECT song.id
+            FROM song, feeling, song_feeling, feeling_words, singer
+            WHERE song.id = song_feeling.song_id AND 
+            feeling.id = song_feeling.feeling_id AND
+            song.singer_id = singer.id AND
+            feeling.id = feeling_words.feeling_id AND 
+            feeling_words.name IN $convertMessage)"
+        );
+
+        return $list_of_song;
     }
     
     public function ruletest1(){
