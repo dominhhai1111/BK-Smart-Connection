@@ -10,9 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/test/{object1}/{object2}', "BKSmartConnection@test")->name("test");
+Route::get('/', function (){
+    return view("welcome");
+});
 Route::get('/ruletest1', "BKSmartConnection@ruletest1")->name("ruletest1");
-Route::get('/', "BKSmartConnection@index")->name("top-page");
+Route::get('/test/{object1}/{object2}', "BKSmartConnection@test")->name("test");
 Route::get('/admin', "AdminController@index")->name("admin-page");
 Route::get('/admin/showAllUsers', "AdminController@showAllUsers")->name("showAllUsers");
 Route::get('/getUsers/user_id={user_id}', "BKSmartConnection@show")->name("getUser");
@@ -61,3 +63,6 @@ Route::get('/getResponse/request={request}', "ChatBotController@getResponse")->n
 Route::get('/rule4/{music}', "BKSmartConnection@rule4")->name("rule4");
 Route::get('/rule1/{music}', "BKSmartConnection@rule1")->name("rule1");
 Route::get('/setDataTest', "BKSmartConnection@setDataTest")->name("setDataTest");
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

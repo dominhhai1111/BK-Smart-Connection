@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -15,6 +15,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        return User::all();
         return view('/admin/index');
     }
 
