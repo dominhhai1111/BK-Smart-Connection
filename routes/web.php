@@ -13,6 +13,9 @@
 Route::get('/', function (){
     return view("welcome");
 });
+
+Route::post('/loginAdmin', "Auth\LoginController@loginAdmin")->name('loginAdmin');
+
 Route::get('/ruletest1', "BKSmartConnection@ruletest1")->name("ruletest1");
 Route::get('/test/{object1}/{object2}', "BKSmartConnection@test")->name("test");
 Route::get('/admin', "AdminController@index")->name("admin-page");
