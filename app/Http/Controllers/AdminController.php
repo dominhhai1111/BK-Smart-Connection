@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -15,7 +15,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return User::all();
+        //return User::all();
+        $user = Auth::user()->name;
+        return $user;
         return view('/admin/index');
     }
 
@@ -196,5 +198,9 @@ class AdminController extends Controller
             DB::table("song_feeling")->insert(["song_id" => $song_id, "feeling_id" => $feeling_id]);
         }
         return \redirect("/admin/showAlbumFeeling/$feeling_id");
+    }
+
+    public function logOut(){
+        Auth::logout();
     }
 }
