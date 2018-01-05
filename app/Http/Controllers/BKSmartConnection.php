@@ -81,13 +81,13 @@ class BKSmartConnection extends Controller
     public function getResult($object1, $object2){
         //TODO
         $result = ["rule1" => 0, "rule2" => 0, "rule3" => 0, "rule4" => 0, "rule5" => 0, "rule6" => 0, "rule7" => 0];
-        if ($this->rule1($object1)){
+        if ($object1 != "" && $this->rule1($object1)){
             $result["rule1"] = 1;
         }
         if ($this->rule2($object2)) {
             $result["rule2"] = 1;
         }
-        if ($this->rule3($object1)){
+        if ($object1 != "" && $this->rule3($object1)){
             $result["rule3"] = 1;
         }
         if ($this->rule4($object2)) {
@@ -265,6 +265,7 @@ class BKSmartConnection extends Controller
     }
 
     public function explodeMessage($message){
+        $message = str_replace("'", "", $message);
         $arrMessage = explode(" ", $message);
         return $arrMessage;
     }
@@ -274,3 +275,4 @@ class BKSmartConnection extends Controller
         return $convertMessage;
     }
 }
+

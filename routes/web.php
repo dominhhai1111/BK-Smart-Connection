@@ -23,6 +23,9 @@ Route::get('/admin/showAllUsers', "AdminController@showAllUsers")->name("showAll
 Route::get('/getUsers/user_id={user_id}', "BKSmartConnection@show")->name("getUser");
 Route::get('/admin/showAllCircumstances', "AdminController@showAllCircumstances")->name("showAllCircumstances");
 Route::get('/admin/showAllSolutions', "AdminController@showAllSolutions")->name("showAllSolutions");
+Route::get('/testApp', "AdminController@testApp")->name("testApp");
+Route::get('/testApp/{result}', "AdminController@testApp")->name("testApp");
+Route::post('/getAppResult', "AdminController@getAppResult")->name('getAppResult');
 
 Route::get('/admin/showGenre', "AdminController@showGenre")->name("showGenre");
 Route::get('/admin/deleteGenre/{id}', "AdminController@deleteGenre")->name("deleteGenre");

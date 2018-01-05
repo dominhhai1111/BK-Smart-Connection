@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BKSmartConnection;
 
 class AdminController extends Controller
 {
@@ -200,7 +201,41 @@ class AdminController extends Controller
         return \redirect("/admin/showAlbumFeeling/$feeling_id");
     }
 
+    public function testApp($result = ""){
+        $result = json_decode($result);
+        return view('admin/testApp', ['result' => $result]);
+    }
+
+    public function getAppResult(Request $request){
+        $message = $request->message;
+        $bkSmartConnection = new BKSmartConnection();
+        if($message != ""){
+            $object2 = new Object2($message, 0);
+            $result = $bkSmartConnection->test("",json_encode($object2));
+        }
+        return \redirect("/testApp/$result");
+    }
+
     public function logOut(){
         Auth::logout();
     }
+}
+
+
+class Object2{
+    public $document;
+    public $score;
+
+    /**
+     * Object2 constructor.
+     * @param $document
+     * @param $score
+     */
+    public function __construct($document, $score)
+    {
+        $this->document = $document;
+        $this->score = $score;
+    }
+
+
 }
